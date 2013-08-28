@@ -141,6 +141,6 @@ Generates the following HTML code
     <p>blah blah</p>
     <h2>heading 1.1</h2>
 
-# Github pages can use plugins
+# Github pages can't use plugins
 
 If you host your jekyll pages on github you can't run plugins, in this scenario you can use a full javascript solution using [TOC Generator for Markdown](https://github.com/dafi/tocmd-generator)
