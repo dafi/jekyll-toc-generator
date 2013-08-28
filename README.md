@@ -65,11 +65,12 @@ You must add the `noToc: true` directive
 Normally no configuration is necessary but you can set some parameter into you `_config.yml` file
 
 <table>
-<th>
-<td>Parameter name</td>
-<td>Description</td>
-<td>Default value</td>
-</th>
+<tr>
+<th>Parameter name</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+
 <tr>
 <td>minItemsToShowToc</td>
 <td>Minimum number of items to show the TOC<br/>Suppose you want to generated the TOC only if there are at least 3 H1</td>
