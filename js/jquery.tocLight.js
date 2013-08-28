@@ -44,5 +44,14 @@
             }
             return false;
         });
+
+        if (config.saveShowStatus && $.cookie('toc-hide')) {
+            var ul = $($('#toc ul')[0]);
+            
+            ul.hide();
+            $('#toctogglelink').text(config.showText);
+            $('#toc').addClass('tochidden');
+        }
+
     }
 })(jQuery);
