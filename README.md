@@ -20,7 +20,7 @@ To use tocGenerator.rb you need [nokogiri](http://nokogiri.org/)
 
 You must replace the `{{ content }}` directive with `{{ content | toc_generate }}`
 
-The output contains the HTML code with the TOC and the anchors referenced by TOC generator
+The output contains the HTML code with the TOC and anchor's targets with the `id` attribute
 
 Example
 

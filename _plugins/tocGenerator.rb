@@ -25,7 +25,7 @@ module Jekyll
         contents_label = config["contentsLabel"] || 'Contents'
         hide_label = config["hideLabel"] || 'hide'
         show_label = config["showLabel"] || 'show'
-        show_hide_button = config["showHideButton"]
+        show_toggle_button = config["showToggleButton"]
 
         toc_html = ''
         toc_level = 1
@@ -47,8 +47,7 @@ module Jekyll
             h2s.map.each do |h2|
                 inner_section += 1;
                 anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s + '-' + inner_section.to_s
-                # Insert before element the anchor used by TOC
-                h2.before("<a name=\"#{anchor_id}\"></a>")
+                h2['id'] = "#{anchor_id}"
 
                 level_html += create_level_html(anchor_id,
                     toc_level + 1,
@@ -61,8 +60,7 @@ module Jekyll
                 level_html = '<ul>' + level_html + '</ul>';
             end
             anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
-            # Insert before element the anchor used by TOC
-            h1.before("<a name=\"#{anchor_id}\"></a>")
+            h1['id'] = "#{anchor_id}"
 
             toc_html += create_level_html(anchor_id,
                 toc_level,
@@ -81,7 +79,7 @@ module Jekyll
 
         if toc_html.length > 0
             hide_html = '';
-            if (show_hide_button)
+            if (show_toggle_button)
                 hide_html = HIDE_HTML.gsub('%1', hide_label)
             end
 
