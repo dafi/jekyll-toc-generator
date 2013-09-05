@@ -5,6 +5,11 @@ Liquid filter to generate Table of Content into Jeklyll pages
 
 This filter adds to jekyll pages a Table of Content (TOC), it generates the necessary HTML code.
 
+# Example
+
+The image below shows the result for the markdown page [alignRules.md](https://raw.github.com/visualdiffer/visualdiffer.github.com/master/alignRules.md)
+
+![image](TOC-Sample.png)
 
 # Installation
 
