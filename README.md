@@ -51,7 +51,7 @@ The style is compatible with mediawiki themes
 
 # Disable generation per page
 
-It is possible to suppress the TOC generation in specific pages, for example the index page normally hasn't a TOC.  
+It is possible to suppress the TOC generation in specific pages, for example the index page normally doesn't have a TOC.  
 This can be done into the [Front Matter](http://jekyllrb.com/docs/frontmatter/) section used by jekyll
 
 
