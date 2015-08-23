@@ -22,7 +22,7 @@ module Jekyll
         anchor_prefix = config["anchorPrefix"] || 'tocAnchor-'
 
         # better for traditional page seo, commonlly use h1 as title
-        toc_top_tag = config["tocTopTag"] || 'h2' 
+        toc_top_tag = config["tocTopTag"] || 'h1' 
         toc_top_tag = toc_top_tag.gsub(/h/, '').to_i
         if toc_top_tag > 5
           toc_top_tag = 5
