@@ -85,7 +85,7 @@ Normally no configuration is necessary but you can set some parameter into you `
 <tr>
 <td>tocTopTag</td>
 <td>The top level tag given nokogiri to find<br/>Suppose you want to generated the TOC start form h1 to h5</td>
-<td>h2</td>
+<td>h1</td>
 </tr>
 <tr>
 <td>anchorPrefix</td>
