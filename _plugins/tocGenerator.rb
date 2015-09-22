@@ -95,26 +95,24 @@ module Jekyll
       # so we decrement it to obtain the index count
       toc_index_count = item_number - 1
 
-      if toc_html.length > 0
-        hide_html = '';
-        hide_html = HIDE_HTML.gsub('%1', hide_label) if (show_toggle_button)
+      return html unless toc_html.length > 0
 
-        if min_items_to_show_toc <= toc_index_count
-          replaced_toggle_html = TOGGLE_HTML
-          .gsub('%1', contents_label)
-          .gsub('%2', hide_html);
+      hide_html = '';
+      hide_html = HIDE_HTML.gsub('%1', hide_label) if (show_toggle_button)
 
-          toc_table = TOC_CONTAINER_HTML
-          .gsub('%1', replaced_toggle_html)
-          .gsub('%2', toc_html);
+      if min_items_to_show_toc <= toc_index_count
+        replaced_toggle_html = TOGGLE_HTML
+        .gsub('%1', contents_label)
+        .gsub('%2', hide_html);
 
-          doc.css('body').children.before(toc_table)
-        end
+        toc_table = TOC_CONTAINER_HTML
+        .gsub('%1', replaced_toggle_html)
+        .gsub('%2', toc_html);
 
-        doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
-      else
-        return html
+        doc.css('body').children.before(toc_table)
       end
+
+      doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
     end
 
     private
