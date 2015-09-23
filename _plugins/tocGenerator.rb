@@ -116,15 +116,25 @@ module Jekyll
     private
 
     def create_level_html(anchor_id, toc_level, toc_section, tocNumber, tocText, tocInner)
-      link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
-      .gsub('%1', anchor_id.to_s)
-      .gsub('%2', tocNumber.to_s)
-      .gsub('%3', tocText)
-      .gsub('%4', tocInner ? tocInner : '');
+      config = @context.registers[:site].config
+
+      markup = '<a href="#%1">'
+      unless config['toc-gen'].nil?
+        if config['toc-gen']['include-tocnumber']
+          markup += '<span class="tocnumber">%2</span>'
+        end
+      end
+      markup += '<span class="toctext">%3</span></a>%4'
+
+      link = markup
+          .gsub('%1', anchor_id.to_s)
+          .gsub('%2', tocNumber.to_s)
+          .gsub('%3', tocText)
+          .gsub('%4', tocInner ? tocInner : '');
       '<li class="toc_level-%1 toc_section-%2">%3</li>'
-      .gsub('%1', toc_level.to_s)
-      .gsub('%2', toc_section.to_s)
-      .gsub('%3', link)
+          .gsub('%1', toc_level.to_s)
+          .gsub('%2', toc_section.to_s)
+          .gsub('%3', link)
     end
 
   end
