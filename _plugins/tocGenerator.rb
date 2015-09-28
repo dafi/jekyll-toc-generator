@@ -26,14 +26,15 @@ module Jekyll
       # Text labels
       contents_label     = config["contentsLabel"] || 'Contents'
       hide_label         = config["hideLabel"] || 'hide'
+
       # show_label       = config["showLabel"] || 'show' # unused
       show_toggle_button = config["showToggleButton"]
 
-      toc_html = ''
-      toc_level = 1
+      toc_html    = ''
+      toc_level   = 1
       toc_section = 1
       item_number = 1
-      level_html = ''
+      level_html  = ''
 
       doc = Nokogiri::HTML(html)
 
