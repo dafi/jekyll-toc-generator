@@ -87,13 +87,8 @@ module Jekyll
       hide_html = HIDE_HTML.gsub('%1', hide_label) if (show_toggle_button)
 
       if min_items_to_show_toc <= toc_index_count
-        replaced_toggle_html = TOGGLE_HTML
-        .gsub('%1', contents_label)
-        .gsub('%2', hide_html)
-
-        toc_table = TOC_CONTAINER_HTML
-        .gsub('%1', replaced_toggle_html)
-        .gsub('%2', toc_html)
+        replaced_toggle_html = replace_in_str TOGGLE_HTML, contents_label, hide_html
+        toc_table = replace_in_str TOC_CONTAINER_HTML, replaced_toggle_html, toc_html
 
         css('body').children.before(toc_table)
       end
