@@ -21,15 +21,7 @@ module Jekyll
       anchor_prefix = config["anchorPrefix"] || 'tocAnchor-'
 
       # better for traditional page seo, commonlly use h1 as title
-      toc_top_tag = config["tocTopTag"] || 'h1'
-      toc_top_tag = toc_top_tag.gsub(/h/, '').to_i
-
-      toc_top_tag = 5 if toc_top_tag > 5
-
-      toc_sec_tag = toc_top_tag + 1
-      toc_top_tag = "h#{toc_top_tag}"
-      toc_sec_tag = "h#{toc_sec_tag}"
-
+      toc_top_tag, toc_sec_tag = gen_tags config['tocTopTag']
 
       # Text labels
       contents_label     = config["contentsLabel"] || 'Contents'
@@ -123,6 +115,15 @@ module Jekyll
       .gsub('%1', toc_level.to_s)
       .gsub('%2', toc_section.to_s)
       .gsub('%3', link)
+    end
+
+    def gen_tags top
+      top = "h1" if top.nil?
+      num = top.gsub(/h/, '').to_i
+      top_tag = "h" + (num > 5 ? 5 : num).to_s
+      sec_tag = "h" + (num > 5 ? 4 : num - 1).to_s
+
+      [top_tag, sec_tag]
     end
 
   end
