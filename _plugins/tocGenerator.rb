@@ -47,7 +47,7 @@ module Jekyll
         level_html    = '';
         inner_section = 0;
 
-        sects.map.each do |sect|
+        sects.each do |sect|
           inner_section += 1;
           anchor_id = [
                         anchor_prefix, toc_level, '-', toc_section, '-',
