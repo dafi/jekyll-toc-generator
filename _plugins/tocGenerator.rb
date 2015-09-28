@@ -33,13 +33,13 @@ module Jekyll
       toc_html    = ''
       toc_level   = 1
       toc_section = 1
-      item_number = 1
       level_html  = ''
 
       doc = Nokogiri::HTML(html)
 
       # Find H1 tag and all its H2 siblings until next H1
-      doc.css(toc_top_tag).each do |tag|
+      css = doc.css toc_top_tag
+      css.each_index do |tag, item_number|
         # TODO This XPATH expression can greatly improved
         ct    = tag.xpath("count(following-sibling::#{toc_top_tag})")
         sects = tag.xpath("following-sibling::#{toc_sec_tag}[count(following-sibling::#{toc_top_tag})=#{ct}]")
@@ -59,7 +59,7 @@ module Jekyll
           level_html += create_level_html(anchor_id,
                                           toc_level + 1,
                                           toc_section + inner_section,
-                                          item_number.to_s + '.' + inner_section.to_s,
+                                          (item_number + 1).to_s + '.' + i.to_s,
                                           sect.text,
                                           '')
         end
@@ -72,17 +72,16 @@ module Jekyll
         toc_html += create_level_html(anchor_id,
                                       toc_level,
                                       toc_section,
-                                      item_number,
+                                      item_number + 1,
                                       tag.text,
                                       level_html);
 
         toc_section += 1 + inner_section;
-        item_number += 1;
       end
 
       # for convenience item_number starts from 1
       # so we decrement it to obtain the index count
-      toc_index_count = item_number - 1
+      toc_index_count = css.length - 1
 
       return html unless toc_html.length > 0
 
@@ -98,10 +97,10 @@ module Jekyll
         .gsub('%1', replaced_toggle_html)
         .gsub('%2', toc_html);
 
-        doc.css('body').children.before(toc_table)
+        css('body').children.before(toc_table)
       end
 
-      doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
+      css('body').children.to_xhtml(indent:3, indent_text:" ")
     end
 
     private
