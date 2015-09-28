@@ -45,20 +45,18 @@ module Jekyll
         sects = tag.xpath("following-sibling::#{toc_sec_tag}[count(following-sibling::#{toc_top_tag})=#{ct}]")
 
         level_html    = '';
-        inner_section = 0;
 
-        sects.each do |sect|
-          inner_section += 1;
+        sects.each_index do |sect, i|
           anchor_id = [
                         anchor_prefix, toc_level, '-', toc_section, '-',
-                        inner_section
+                        i + 1
                       ].map(&:to_s).join ''
 
           sect['id'] = "#{anchor_id}"
 
           level_html += create_level_html(anchor_id,
                                           toc_level + 1,
-                                          toc_section + inner_section,
+                                          toc_section + u,
                                           (item_number + 1).to_s + '.' + i.to_s,
                                           sect.text,
                                           '')
@@ -76,7 +74,7 @@ module Jekyll
                                       tag.text,
                                       level_html);
 
-        toc_section += 1 + inner_section;
+        toc_section += 1 + sects.length;
       end
 
       # for convenience item_number starts from 1
