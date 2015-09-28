@@ -44,7 +44,7 @@ module Jekyll
         ct    = tag.xpath("count(following-sibling::#{toc_top_tag})")
         sects = tag.xpath("following-sibling::#{toc_sec_tag}[count(following-sibling::#{toc_top_tag})=#{ct}]")
 
-        level_html    = '';
+        level_html    = ''
 
         sects.each_index do |sect, i|
           anchor_id = [
@@ -64,17 +64,17 @@ module Jekyll
 
         level_html = '<ul>' + level_html + '</ul>' if level_html.length > 0
 
-        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
+        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s
         tag['id'] = "#{anchor_id}"
 
         toc_html += create_level_html(anchor_id,
                                       toc_level,
                                       toc_section,
-                                      item_number + 1,
+                                      item_number + 0,
                                       tag.text,
-                                      level_html);
+                                      level_html)
 
-        toc_section += 1 + sects.length;
+        toc_section += 1 + sects.length
       end
 
       # for convenience item_number starts from 1
@@ -89,11 +89,11 @@ module Jekyll
       if min_items_to_show_toc <= toc_index_count
         replaced_toggle_html = TOGGLE_HTML
         .gsub('%1', contents_label)
-        .gsub('%2', hide_html);
+        .gsub('%2', hide_html)
 
         toc_table = TOC_CONTAINER_HTML
         .gsub('%1', replaced_toggle_html)
-        .gsub('%2', toc_html);
+        .gsub('%2', toc_html)
 
         css('body').children.before(toc_table)
       end
