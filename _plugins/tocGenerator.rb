@@ -11,9 +11,7 @@ module Jekyll
     def toc_generate(html)
       # No Toc can be specified on every single page
       # For example the index page has no table of contents
-      no_toc = @context.environments.first["page"]["noToc"] || false;
-
-      return html if no_toc
+      return html if (@context.environments.first["page"]["noToc"] || false)
 
       config = @context.registers[:site].config
 
