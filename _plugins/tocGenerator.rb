@@ -103,16 +103,24 @@ module Jekyll
 
     private
 
-    def create_level_html(anchor_id, toc_level, toc_section, tocNumber, tocText, tocInner)
-      link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
-      .gsub('%1', anchor_id.to_s)
-      .gsub('%2', tocNumber.to_s)
-      .gsub('%3', tocText)
-      .gsub('%4', tocInner ? tocInner : '');
-      '<li class="toc_level-%1 toc_section-%2">%3</li>'
-      .gsub('%1', toc_level.to_s)
-      .gsub('%2', toc_section.to_s)
-      .gsub('%3', link)
+    def replace_in_str str, *repl
+      def do_replace str, i, *r
+        do_replace str.gsub("%#{i}", r.first.to_s), i.pred, *r[1..-1]
+      end
+
+      do_replace str, repl.length, *repl
+    end
+
+    def create_level_html anchor_id, toc_level, toc_section, tocNumber, tocText, tocInner
+      l = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
+      l = replace_in_str  link,
+                          anchor_id,
+                          tocNumber,
+                          tocText,
+                          tocInner ? tocInner : ''
+
+      result = '<li class="toc_level-%1 toc_section-%2">%3</li>'
+      replace_in_str result, toc_level, toc_section, l
     end
 
     def gen_tags top
