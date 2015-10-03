@@ -110,7 +110,8 @@ module Jekyll
         doc.css('body').children.before(toc_table)
       end
 
-      doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
+      # doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
+      doc.css('body').children.to_xhtml(indent:0)
     end
 
     private
