@@ -1,7 +1,7 @@
 jekyll-toc-generator
 ====================
 
-Liquid filter to generate Table of Content into Jeklyll pages 
+Liquid filter to generate Table of Content into Jeklyll pages
 
 This filter adds to jekyll pages a Table of Content (TOC), it generates the necessary HTML code.
 
@@ -55,7 +55,7 @@ It is possible to suppress the TOC generation in specific pages, for example the
 This can be done into the [Front Matter](http://jekyllrb.com/docs/frontmatter/) section used by jekyll
 
 
-You must add the `noToc: true` directive
+You must add the `noToc: true` directive:
 
     ---
     permalink: index.html
@@ -64,6 +64,19 @@ You must add the `noToc: true` directive
     noToc: true
     ---
 
+# Limit the TOC to a single level
+
+It is possible to limit the TOC generation in specific pages to a single level.  
+This can be done into the [Front Matter](http://jekyllrb.com/docs/frontmatter/) section used by jekyll.
+
+You must add the `tocLevels: 1` directive:
+
+    ---
+    permalink: /reference/
+    layout: page
+    title: Reference
+    tocLevels: 1
+    ---
 
 # Advanced configuration
 
@@ -140,7 +153,7 @@ For example the markdown code shown below
     heading 1
     =========
 
-    blah blah 
+    blah blah
 
     heading 1.1
     -----------
