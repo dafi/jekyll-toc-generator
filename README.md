@@ -78,6 +78,20 @@ You must add the `tocLevels: 1` directive:
     tocLevels: 1
     ---
 
+# Preserve existing anchor names
+
+If the markdown was processed with `with_toc_data`, the header definitions already include proper anchors, and the TOC can directly use them.
+
+This can be enabled in the [Front Matter](http://jekyllrb.com/docs/frontmatter/) section used by jekyll.
+
+    ---
+    permalink: /reference/
+    layout: page
+    title: Reference
+    useExistingAnchors: true
+    ---
+
+
 # Advanced configuration
 
 Normally no configuration is necessary but you can set some parameter into you `_config.yml` file

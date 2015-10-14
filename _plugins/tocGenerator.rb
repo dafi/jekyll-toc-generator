@@ -23,6 +23,7 @@ module Jekyll
       min_items_to_show_toc = config["minItemsToShowToc"] || 0
 
       anchor_prefix = config["anchorPrefix"] || 'tocAnchor-'
+      use_existing_anchors = config["useExistingAnchors"] || false
 
       # better for traditional page seo, commonlly use h1 as title
       toc_top_tag = config["tocTopTag"] || 'h1'
@@ -61,12 +62,16 @@ module Jekyll
         if toc_levels > 1
           sects.map.each do |sect|
             inner_section += 1;
-            anchor_id = [
+            if use_existing_anchors && sect['id']
+              anchor_id = sect['id'];
+            else
+              anchor_id = [
                           anchor_prefix, toc_level, '-', toc_section, '-',
                           inner_section
                         ].map(&:to_s).join ''
+              sect['id'] = "#{anchor_id}"
+            end
 
-            sect['id'] = "#{anchor_id}"
 
             level_html += create_level_html(anchor_id,
                                             toc_level + 1,
@@ -79,8 +84,12 @@ module Jekyll
 
         level_html = '<ul>' + level_html + '</ul>' if level_html.length > 0
 
-        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
-        tag['id'] = "#{anchor_id}"
+        if use_existing_anchors && tag['id']
+          anchor_id = tag['id'];
+        else
+          anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
+          tag['id'] = "#{anchor_id}"
+        end
 
         toc_html += create_level_html(anchor_id,
                                       toc_level,
