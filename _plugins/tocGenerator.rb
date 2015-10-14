@@ -15,12 +15,15 @@ module Jekyll
 
       return html if no_toc
 
+      toc_levels = @context.environments.first["page"]["tocLevels"] || 2;
+
       config = @context.registers[:site].config
 
       # Minimum number of items needed to show TOC, default 0 (0 means no minimum)
       min_items_to_show_toc = config["minItemsToShowToc"] || 0
 
       anchor_prefix = config["anchorPrefix"] || 'tocAnchor-'
+      use_existing_anchors = config["useExistingAnchors"] || false
 
       # better for traditional page seo, commonlly use h1 as title
       toc_top_tag = config["tocTopTag"] || 'h1'
@@ -56,27 +59,37 @@ module Jekyll
         level_html    = '';
         inner_section = 0;
 
-        sects.map.each do |sect|
-          inner_section += 1;
-          anchor_id = [
-                        anchor_prefix, toc_level, '-', toc_section, '-',
-                        inner_section
-                      ].map(&:to_s).join ''
+        if toc_levels > 1
+          sects.map.each do |sect|
+            inner_section += 1;
+            if use_existing_anchors && sect['id']
+              anchor_id = sect['id'];
+            else
+              anchor_id = [
+                          anchor_prefix, toc_level, '-', toc_section, '-',
+                          inner_section
+                        ].map(&:to_s).join ''
+              sect['id'] = "#{anchor_id}"
+            end
 
-          sect['id'] = "#{anchor_id}"
 
-          level_html += create_level_html(anchor_id,
-                                          toc_level + 1,
-                                          toc_section + inner_section,
-                                          item_number.to_s + '.' + inner_section.to_s,
-                                          sect.text,
-                                          '')
+            level_html += create_level_html(anchor_id,
+                                            toc_level + 1,
+                                            toc_section + inner_section,
+                                            item_number.to_s + '.' + inner_section.to_s,
+                                            sect.text,
+                                            '')
+          end
         end
 
         level_html = '<ul>' + level_html + '</ul>' if level_html.length > 0
 
-        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
-        tag['id'] = "#{anchor_id}"
+        if use_existing_anchors && tag['id']
+          anchor_id = tag['id'];
+        else
+          anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
+          tag['id'] = "#{anchor_id}"
+        end
 
         toc_html += create_level_html(anchor_id,
                                       toc_level,
@@ -110,7 +123,8 @@ module Jekyll
         doc.css('body').children.before(toc_table)
       end
 
-      doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
+      # doc.css('body').children.to_xhtml(indent:3, indent_text:" ")
+      doc.css('body').children.to_xhtml(indent:0)
     end
 
     private
@@ -119,7 +133,7 @@ module Jekyll
       link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
       .gsub('%1', anchor_id.to_s)
       .gsub('%2', tocNumber.to_s)
-      .gsub('%3', tocText)
+      .gsub('%3', tocText.encode(:xml => :text))
       .gsub('%4', tocInner ? tocInner : '');
       '<li class="toc_level-%1 toc_section-%2">%3</li>'
       .gsub('%1', toc_level.to_s)
