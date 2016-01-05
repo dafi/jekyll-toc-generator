@@ -11,9 +11,7 @@ module Jekyll
     def toc_generate(html)
       # No Toc can be specified on every single page
       # For example the index page has no table of contents
-      no_toc = @context.environments.first["page"]["noToc"] || false;
-
-      return html if no_toc
+      return html if (@context.environments.first["page"]["noToc"] || false)
 
       config = @context.registers[:site].config
 
@@ -53,11 +51,11 @@ module Jekyll
         ct    = tag.xpath("count(following-sibling::#{toc_top_tag})")
         sects = tag.xpath("following-sibling::#{toc_sec_tag}[count(following-sibling::#{toc_top_tag})=#{ct}]")
 
-        level_html    = '';
-        inner_section = 0;
+        level_html    = ''
+        inner_section = 0
 
-        sects.map.each do |sect|
-          inner_section += 1;
+        sects.each do |sect|
+          inner_section += 1
           anchor_id = [
                         anchor_prefix, toc_level, '-', toc_section, '-',
                         inner_section
@@ -75,7 +73,7 @@ module Jekyll
 
         level_html = '<ul>' + level_html + '</ul>' if level_html.length > 0
 
-        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s;
+        anchor_id = anchor_prefix + toc_level.to_s + '-' + toc_section.to_s
         tag['id'] = "#{anchor_id}"
 
         toc_html += create_level_html(anchor_id,
@@ -83,10 +81,10 @@ module Jekyll
                                       toc_section,
                                       item_number,
                                       tag.text,
-                                      level_html);
+                                      level_html)
 
-        toc_section += 1 + inner_section;
-        item_number += 1;
+        toc_section += 1 + inner_section
+        item_number += 1
       end
 
       # for convenience item_number starts from 1
@@ -95,17 +93,17 @@ module Jekyll
 
       return html unless toc_html.length > 0
 
-      hide_html = '';
+      hide_html = ''
       hide_html = HIDE_HTML.gsub('%1', hide_label) if (show_toggle_button)
 
       if min_items_to_show_toc <= toc_index_count
         replaced_toggle_html = TOGGLE_HTML
         .gsub('%1', contents_label)
-        .gsub('%2', hide_html);
+        .gsub('%2', hide_html)
 
         toc_table = TOC_CONTAINER_HTML
         .gsub('%1', replaced_toggle_html)
-        .gsub('%2', toc_html);
+        .gsub('%2', toc_html)
 
         doc.css('body').children.before(toc_table)
       end
@@ -120,7 +118,7 @@ module Jekyll
       .gsub('%1', anchor_id.to_s)
       .gsub('%2', tocNumber.to_s)
       .gsub('%3', tocText)
-      .gsub('%4', tocInner ? tocInner : '');
+      .gsub('%4', tocInner ? tocInner : '')
       '<li class="toc_level-%1 toc_section-%2">%3</li>'
       .gsub('%1', toc_level.to_s)
       .gsub('%2', toc_section.to_s)
