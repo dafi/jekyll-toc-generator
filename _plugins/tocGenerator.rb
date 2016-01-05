@@ -108,7 +108,7 @@ module Jekyll
         doc.css('body').children.before(toc_table)
       end
 
-      doc.to_xhtml
+      doc.css('body').children.to_xhtml
     end
 
     private
