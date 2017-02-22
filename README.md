@@ -1,7 +1,7 @@
 jekyll-toc-generator
 ====================
 
-Liquid filter to generate Table of Content into Jeklyll pages 
+Liquid filter to generate Table of Content into Jekyll pages 
 
 This filter adds to jekyll pages a Table of Content (TOC), it generates the necessary HTML code.
 
